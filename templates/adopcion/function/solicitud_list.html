@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+
+{% block nav_button %}
+<a class="btn btn-outline-success" href="{% url 'adopcion:function_solicitud_crear' %}">Agregar</a>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <td>#</td>
+        <td>Adoptante</td>
+        <td>No. Mascotas</td>
+        <td>Razones</td>
+        <td>Acciones</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% if solicitudes %}
+        {% for solicitud in solicitudes %}
+          <tr>
+            <td>{{ solicitud.id }}</td>
+            <td>{{ solicitud.persona.nombre }} {{ solicitud.persona.apellido }}</td>
+            <td>{{ solicitud.numero_mascotas }}</td>
+            <td>{{ solicitud.razones }}</td>
+            <td>
+              <a href="{% url 'adopcion:function_solicitud_editar' solicitud.id %}" class="btn btn-primary">Editar</a>
+              <a href="{% url 'adopcion:function_solicitud_eliminar' solicitud.id %}" class="btn btn-danger">Eliminar</a>
+            </td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="5">No hay registros</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

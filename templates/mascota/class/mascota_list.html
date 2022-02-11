@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+
+{% block nav_button %}
+<a class="btn btn-outline-success" href="{% url 'mascota:class_mascota_crear' %}">Agregar</a>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <table class="table table-bordered">
+    <thead>
+      <td>#</td>
+      <td>Nombre</td>
+      <td>Imagen</td>
+      <td>Sexo</td>
+      <td>Edad</td>
+      <td>Fecha de rescate</td>
+      <td>Adoptante</td>
+      <td>Acciones</td>
+    </thead>
+    <tbody>
+      {% if object_list %}
+        {% for mascota in object_list %}
+          <tr>
+            <td>{{ mascota.id }}</td>
+            <td>{{ mascota.nombre }}</td>
+            <td>
+              <img src="{{ mascota.image.url }}" alt="Err" style="max-width: 120px;">
+            </td>
+            <td>{{ mascota.sexo }}</td>
+            <td>{{ mascota.edad_aproximada }}</td>
+            <td>{{ mascota.fecha_rescate }}</td>
+            <td>{{ mascota.persona.nombre }} {{ mascota.persona.apellido }}</td>
+            <td>
+              <a href="{% url 'mascota:class_mascota_editar' mascota.id %}" class="btn btn-primary">Editar</a>
+              <a href="{% url 'mascota:class_mascota_eliminar' mascota.id %}" class="btn btn-danger">Eliminar</a>
+            </td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="8">No hay registros</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
