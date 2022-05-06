@@ -1,2 +1,8 @@
-Django==1.9.6
+Django==1.11.29
+django-filter==2.0.0
+djangorestframework==3.9.4
+Markdown==3.1.1
 Pillow==6.2.2
+pyaml==21.10.1
+pytz==2022.1
+PyYAML==5.4.1
