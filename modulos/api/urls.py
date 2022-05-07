@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from modulos.api.views.mascota_api_view import mascota_list, mascota_detail
+from modulos.api.views.mascota_decorator import mascota_list, mascota_detail
 
 urlpatterns = [
 
