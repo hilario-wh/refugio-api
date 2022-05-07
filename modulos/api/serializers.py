@@ -26,8 +26,6 @@ class VacunaSerializer(serializers.ModelSerializer):
         ]
 
 class MascotaSerializer(serializers.ModelSerializer):
-    persona = PersonaSerializer(read_only=True)
-    vacuna = VacunaSerializer(read_only=True, many=True)
     class Meta:
         model = Mascota
         fields = [
@@ -40,3 +38,10 @@ class MascotaSerializer(serializers.ModelSerializer):
             'persona',
             'vacuna',
         ]
+
+    def to_representation(self, instance):
+        values = super(MascotaSerializer, self).to_representation(instance)
+        if values['persona'] is not None: values['persona'] = PersonaSerializer(instance.persona).data
+        values['vacuna'] = VacunaSerializer(instance.vacuna, many=True).data
+        return values
+        

@@ -22,7 +22,7 @@ def mascota_list(request):
         return Response(serializer.data)
         
     elif request.method == 'POST':
-        serializer = MascotaSerializer(data=request.data)
+        serializer = MascotaSerializer(data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
@@ -43,14 +43,7 @@ def mascota_detail(request, pk):
         serializer = MascotaSerializer(mascota)
         return Response(serializer.data)
 
-    elif request.method == 'PUT':
-        serializer = MascotaSerializer(mascota, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
-
-    elif request.method == 'PATCH':
+    elif request.method == 'PUT' or request.method == 'PATCH':
         serializer = MascotaSerializer(mascota, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
