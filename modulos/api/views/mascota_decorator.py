@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from functools import partial
+from django.http import Http404
+from django.shortcuts import render
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from django.shortcuts import render
-from modulos.api.serializers import MascotaSerializer
-
+from modulos.api.serializers import MascotaSerializer, PersonaSerializer
 from modulos.mascota.models import Mascota
 
 
@@ -37,7 +37,7 @@ def mascota_detail(request, pk):
     try:
         mascota = Mascota.objects.get(pk=pk)
     except Mascota.DoesNotExist:
-        return Response(status=404)
+        raise Http404
 
     if request.method == 'GET':
         serializer = MascotaSerializer(mascota)
@@ -53,3 +53,22 @@ def mascota_detail(request, pk):
     elif request.method == 'DELETE':
         mascota.delete()
         return Response(status=204)
+
+
+@api_view(['GET'])
+def mascota_persona_list(request, pk):
+    """
+    DECORATOR | List pet owner
+    """
+
+    try:
+        mascota = Mascota.objects.get(pk=pk)
+    except Mascota.DoesNotExist:
+        raise Http404
+        
+    if request.method == 'GET':
+        persona = mascota.persona
+        if persona is not None:
+            serializer = PersonaSerializer(persona)
+            return Response(serializer.data)
+        raise Http404

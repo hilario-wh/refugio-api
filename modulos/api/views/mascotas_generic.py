@@ -1,6 +1,10 @@
-from rest_framework import generics
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 
-from modulos.api.serializers import MascotaSerializer
+from rest_framework import generics
+from rest_framework.response import Response
+
+from modulos.api.serializers import MascotaSerializer, PersonaSerializer
 from modulos.mascota.models import Mascota
 
 
@@ -18,3 +22,17 @@ class MascotaDetailsGeneric(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Mascota.objects.all()
     serializer_class = MascotaSerializer
+
+
+class MascotaPersonaListGeneric(generics.RetrieveAPIView):
+    """
+    Generic Views | List pet owner
+    """
+
+    def retrieve(self, request, *args, **kwargs):
+        mascota = get_object_or_404(Mascota, pk=self.kwargs.get('pk'))
+        persona = mascota.persona
+        if persona is not None:
+            serializer = PersonaSerializer(persona)
+            return Response(serializer.data)
+        raise Http404

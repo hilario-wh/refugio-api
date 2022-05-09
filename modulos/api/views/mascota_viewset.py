@@ -1,9 +1,11 @@
+from django.http import Http404
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
-from rest_framework.response import Response
-from yaml import serialize
 
-from modulos.api.serializers import MascotaSerializer
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from modulos.api.serializers import MascotaSerializer, PersonaSerializer
 from modulos.mascota.models import Mascota
 
 
@@ -40,3 +42,15 @@ class MascotaViewset(viewsets.ViewSet):
         mascota = get_object_or_404(Mascota, pk=pk)
         mascota.delete()
         return Response(status=204)
+
+    @action(detail=True, methods=['get'])
+    def persona(self, request, pk=None):
+        """
+        ViewSet | Get pet owner
+        """
+        mascota = get_object_or_404(Mascota, pk=pk)
+        persona = mascota.persona
+        if persona is not None:
+            serializer = PersonaSerializer(persona)
+            return Response(serializer.data)
+        raise Http404
