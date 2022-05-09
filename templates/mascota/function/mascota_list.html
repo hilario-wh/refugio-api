@@ -24,7 +24,9 @@
             <td>{{ mascota.id }}</td>
             <td>{{ mascota.nombre }}</td>
             <td>
+              {% if mascota.image %}
               <img src="{{ mascota.image.url }}" alt="Err" style="max-width: 120px;">
+              {% endif %}
             </td>
             <td>{{ mascota.sexo }}</td>
             <td>{{ mascota.edad_aproximada }}</td>
