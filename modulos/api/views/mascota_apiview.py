@@ -1,8 +1,8 @@
 from django.http import Http404
 
+from rest_framework import authentication, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 
 from modulos.mascota.models import Mascota
 from modulos.api.serializers import MascotaSerializer, PersonaSerializer
@@ -12,6 +12,9 @@ class MascotaList(APIView):
     """
     APIView | List all pets or create a new one
     """
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAdminUser]
+
     def get(self, request):
         mascotas = Mascota.objects.all()
         serializer = MascotaSerializer(mascotas, many=True)
@@ -29,6 +32,9 @@ class MascotaDetails(APIView):
     """
     APIView | Retrieve, update or delete a pet
     """
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAdminUser]
+
     def get_object(self, pk):
         try:
             mascota = Mascota.objects.get(pk=pk)
@@ -59,6 +65,9 @@ class MascotaPersonaList(APIView):
     """
     APIView | List pet owner
     """
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAdminUser]
+    
     def get_object(self, pk):
         try:
             mascota = Mascota.objects.get(pk=pk)

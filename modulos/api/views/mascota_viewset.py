@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 
-from rest_framework import viewsets
+from rest_framework import authentication, permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -13,6 +13,9 @@ class MascotaViewset(viewsets.ViewSet):
     """
     ViewSet | Full CRUD class
     """
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAdminUser]
+
     def list(self, request):
         queryset = Mascota.objects.all()
         serializer = MascotaSerializer(queryset, many=True)

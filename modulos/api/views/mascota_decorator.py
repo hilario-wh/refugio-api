@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 from django.http import Http404
 from django.shortcuts import render
 
-from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework import authentication, permissions, status
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
 
 from modulos.api.serializers import MascotaSerializer, PersonaSerializer
@@ -12,6 +12,8 @@ from modulos.mascota.models import Mascota
 
 
 @api_view(['GET', 'POST'])
+@authentication_classes([authentication.SessionAuthentication])
+@permission_classes([permissions.IsAdminUser])
 def mascota_list(request):
     """
     DECORATOR | List all pets, or create a new one.
@@ -30,6 +32,8 @@ def mascota_list(request):
 
 
 @api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
+@authentication_classes([authentication.SessionAuthentication])
+@permission_classes([permissions.IsAdminUser])
 def mascota_detail(request, pk):
     """
     DECORATOR | Retrieve, update or delete a pet
@@ -56,6 +60,8 @@ def mascota_detail(request, pk):
 
 
 @api_view(['GET'])
+@authentication_classes([authentication.SessionAuthentication])
+@permission_classes([permissions.IsAdminUser])
 def mascota_persona_list(request, pk):
     """
     DECORATOR | List pet owner

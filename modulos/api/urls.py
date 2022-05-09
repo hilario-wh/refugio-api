@@ -23,7 +23,7 @@ urlpatterns = [
     # Viewset
     url(r'^v4/mascotas$', MascotaViewset.as_view({'get':'list', 'post':'create'}), name='mascota_list_v4'),
     url(r'^v4/mascotas/(?P<pk>\d+)$', MascotaViewset.as_view({'get':'retrieve', 'put':'update', 'delete': 'destroy'}), name='mascota_details_v4'),
-    url(r'^v4/mascotas/(?P<pk>\d+)/persona$', MascotaViewset.as_view({'get':'mascota'}), name='mascota_persona_list_v4'),
+    url(r'^v4/mascotas/(?P<pk>\d+)/persona$', MascotaViewset.as_view({'get':'persona'}), name='mascota_persona_list_v4'),
 ]
 
 #router = DefaultRouter()
