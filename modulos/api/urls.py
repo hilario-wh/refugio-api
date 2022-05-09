@@ -5,6 +5,7 @@ from modulos.api.views.mascota_decorator import mascota_list, mascota_detail, ma
 from modulos.api.views.mascota_apiview import MascotaDetails, MascotaList, MascotaPersonaList
 from modulos.api.views.mascota_viewset import MascotaViewset
 from modulos.api.views.mascotas_generic import MascotaDetailsGeneric, MascotaListGeneric, MascotaPersonaListGeneric
+from modulos.api.views.mascota_front import front_mascota_create, front_mascota_delete, front_mascota_edit, front_mascota_list
 from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
@@ -24,6 +25,12 @@ urlpatterns = [
     url(r'^v4/mascotas$', MascotaViewset.as_view({'get':'list', 'post':'create'}), name='mascota_list_v4'),
     url(r'^v4/mascotas/(?P<pk>\d+)$', MascotaViewset.as_view({'get':'retrieve', 'put':'update', 'delete': 'destroy'}), name='mascota_details_v4'),
     url(r'^v4/mascotas/(?P<pk>\d+)/persona$', MascotaViewset.as_view({'get':'persona'}), name='mascota_persona_list_v4'),
+
+    # Ejemplo Consumo
+    url(r'^nuevo$', front_mascota_create, name='api_mascota_crear'),
+    url(r'^listar$', front_mascota_list, name='api_mascota_listar'),
+    url(r'^editar/(?P<pk>\d+)/$', front_mascota_edit, name='api_mascota_editar'),
+    url(r'^eliminar/(?P<pk>\d+)/$', front_mascota_delete, name='api_mascota_eliminar'),
 ]
 
 #router = DefaultRouter()

@@ -27,6 +27,7 @@
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="{% url 'mascota:class_mascota_listar' %}">CRUD Clases</a></li>
                       <li><a class="dropdown-item" href="{% url 'mascota:function_mascota_listar' %}">CRUD Funciones</a></li>
+                      <li><a class="dropdown-item" href="{% url 'api:api_mascota_listar' %}">CRUD API</a></li>
                     </ul>
                   </li>
                   <li class="nav-item dropdown">
@@ -34,6 +35,15 @@
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="{% url 'adopcion:class_solicitud_listar' %}">CRUD Clases</a></li>
                       <li><a class="dropdown-item" href="{% url 'adopcion:function_solicitud_listar' %}">CRUD Funciones</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">API</a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{% url 'api:mascota_list_v1' %}">V1 Decorator</a></li>
+                      <li><a class="dropdown-item" href="{% url 'api:mascota_list_v2' %}">V2 APIView</a></li>
+                      <li><a class="dropdown-item" href="{% url 'api:mascota_list_v3' %}">V3 Generic</a></li>
+                      <li><a class="dropdown-item" href="{% url 'api:mascota_list_v4' %}">V4 ViewSet</a></li>
                     </ul>
                   </li>
             </ul>

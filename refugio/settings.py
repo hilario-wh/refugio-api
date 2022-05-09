@@ -127,3 +127,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 MEDIA_ROOT = 'static/uploads/'
 MEDIA_URL = 'http://localhost:8000/static/uploads/'
+
+DOMAIN = 'http://localhost:8000'

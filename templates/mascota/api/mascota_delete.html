@@ -4,9 +4,9 @@
     <div class="container">
         <form method="POST">
             {% csrf_token %}
-            <h3>Desea eliminar el registro de {{ object.nombre }}</h3>
+            <h3>Desea eliminar el registro de {{ mascota.nombre }}</h3>
             <button type="submit" class="btn btn-danger">Si, eliminar</button>
-            <a href="{% url 'mascota:function_mascota_listar' %}">Cancelar</a>
+            <a href="{% url 'api:api_mascota_listar' %}">Cancelar</a>
         </form>
     </div>
 {% endblock %}
