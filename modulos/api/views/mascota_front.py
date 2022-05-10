@@ -109,7 +109,7 @@ def front_mascota_edit(request, pk):
                 data=post_data
             )
             if response.status_code == 400 or response.status_code == 302:
-                return redirect('api:api_mascota_crear')
+                return redirect('api:api_mascota_editar', pk)
             return redirect('api:api_mascota_listar')
         except:
             raise Http404("Error de conexion")
