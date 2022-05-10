@@ -10,7 +10,6 @@
     <thead>
       <td>#</td>
       <td>Nombre</td>
-      <td>Imagen</td>
       <td>Sexo</td>
       <td>Edad</td>
       <td>Fecha de rescate</td>
@@ -23,11 +22,6 @@
           <tr>
             <td>{{ mascota.id }}</td>
             <td>{{ mascota.nombre }}</td>
-            <td>
-              {% if mascota.image %}
-              <img src="{{ mascota.image }}" alt="Err" style="max-width: 120px;">
-              {% endif %}
-            </td>
             <td>{{ mascota.sexo }}</td>
             <td>{{ mascota.edad_aproximada }}</td>
             <td>{{ mascota.fecha_rescate }}</td>
@@ -40,7 +34,7 @@
         {% endfor %}
       {% else %}
         <tr>
-          <td colspan="8">No hay registros o no permitido</td>
+          <td colspan="8">No hay registros</td>
         </tr>
       {% endif %}
     </tbody>

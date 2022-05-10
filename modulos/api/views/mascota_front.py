@@ -1,15 +1,13 @@
 import json
-
 import requests
 
 from django.conf import settings
-from django.http import Http404, HttpResponse
+from django.core.exceptions import PermissionDenied
+from django.http import Http404
 from django.shortcuts import render,redirect
 
 from modulos.mascota.forms import MascotaApiForm
-from modulos.mascota.models import Mascota
 from django.core.urlresolvers import reverse_lazy
-# Create your views here.
 
 
 def format_url(url):
@@ -21,10 +19,12 @@ def get_api_response(request, url):
     try:
         url = format_url(url)
         response = requests.get(url, timeout=4, cookies=request.COOKIES)
-        if response.status_code == 404:
-            raise Http404("No encontrado")
     except:
         raise Http404("Error de conexion")
+    if response.status_code == 404:
+        raise Http404("No encontrado")
+    if response.status_code == 403:
+        raise PermissionDenied("No permitido")
     return response
 
 
@@ -50,8 +50,9 @@ def format_form_post(form):
         if field == 'vacuna':
             post_data[field] = form.data.getlist(field)
         else:
-            post_data[field] = form.data.get(field)
-
+            data = form.data.get(field, "")
+            if data != "":
+                post_data[field] = data
     post_data['vacuna'] = post_data.get("vacuna", [])
     return json.dumps(post_data)
 
