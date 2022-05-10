@@ -37,11 +37,11 @@ urlpatterns = [
     url(r'^v4/mascotas/(?P<pk>\d+)/persona$', MascotaViewset.as_view({'get':'persona'}), name='mascota_persona_list_v4'),
 
     # Ejemplo Consumo
-    url(r'^nuevo$', front_mascota_create, name='api_mascota_crear'),
-    url(r'^listar$', front_mascota_list, name='api_mascota_listar'),
-    url(r'^editar/(?P<pk>\d+)/$', front_mascota_edit, name='api_mascota_editar'),
-    url(r'^mascota/(?P<pk>\d+)/persona$', front_mascota_persona_details, name='api_mascota_persona_details'),
-    url(r'^eliminar/(?P<pk>\d+)/$', front_mascota_delete, name='api_mascota_eliminar'),
+    url(r'^V(?P<version>\d+)/mascotas/nuevo$', front_mascota_create, name='api_mascota_crear'),
+    url(r'^V(?P<version>\d+)/mascotas/listar$', front_mascota_list, name='api_mascota_listar'),
+    url(r'^V(?P<version>\d+)/mascotas/editar/(?P<pk>\d+)/$', front_mascota_edit, name='api_mascota_editar'),
+    url(r'^V(?P<version>\d+)/mascotas/(?P<pk>\d+)/persona$', front_mascota_persona_details, name='api_mascota_persona_details'),
+    url(r'^V(?P<version>\d+)/mascotas/eliminar/(?P<pk>\d+)/$', front_mascota_delete, name='api_mascota_eliminar'),
 ]
 
 #router = DefaultRouter()

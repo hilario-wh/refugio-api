@@ -35,15 +35,6 @@ def format_options(source, key, value):
     return options
 
 
-def front_mascota_list(request):
-    response = get_api_response(request, reverse_lazy('api:mascota_list_v1'))
-    mascotas = {}
-    if response.status_code == 200:
-        mascotas = response.json()
-    contexto = {'mascotas':mascotas}
-    return render(request, 'mascota/api/mascota_list.html', contexto)
-
-
 def format_form_post(form):
     post_data = {}
     for field in form.data:
@@ -57,13 +48,22 @@ def format_form_post(form):
     return json.dumps(post_data)
 
 
-def front_mascota_create(request):
+def front_mascota_list(request, version):
+    response = get_api_response(request, reverse_lazy('api:mascota_list_v'+version))
+    mascotas = {}
+    if response.status_code == 200:
+        mascotas = response.json()
+    contexto = {'mascotas':mascotas, 'version': version}
+    return render(request, 'mascota/api/mascota_list.html', contexto)
+
+
+def front_mascota_create(request, version):
     if request.method == 'POST':
         try:
             form = MascotaApiForm(request.POST)
             post_data = format_form_post(form)
             response = requests.post(
-                format_url(reverse_lazy('api:mascota_list_v1')),
+                format_url(reverse_lazy('api:mascota_list_v'+version)),
                 timeout=4,
                 cookies=request.COOKIES,
                 headers={
@@ -73,8 +73,8 @@ def front_mascota_create(request):
                 data=post_data
             )
             if response.status_code == 400 or response.status_code == 302:
-                return redirect('api:api_mascota_crear')
-            return redirect('api:api_mascota_listar')
+                return redirect('api:api_mascota_crear', version)
+            return redirect('api:api_mascota_listar', version)
         except:
             raise Http404("Error de conexion")
 
@@ -90,16 +90,16 @@ def front_mascota_create(request):
         form.fields['persona']._set_choices(personas)
         form.fields['vacuna']._set_choices(vacunas)
 
-    return render(request, 'mascota/api/mascota_form.html', {'form':form})
+    return render(request, 'mascota/api/mascota_form.html', {'form':form, 'version':version})
 
 
-def front_mascota_edit(request, pk):
+def front_mascota_edit(request, version, pk):
     if request.method == 'POST':
         try:
             form = MascotaApiForm(request.POST)
             post_data = format_form_post(form)
             response = requests.put(
-                format_url(reverse_lazy('api:mascota_details_v1', kwargs={'pk': pk})),
+                format_url(reverse_lazy('api:mascota_details_v'+version, kwargs={'pk': pk})),
                 timeout=4,
                 cookies=request.COOKIES,
                 headers={
@@ -109,13 +109,13 @@ def front_mascota_edit(request, pk):
                 data=post_data
             )
             if response.status_code == 400 or response.status_code == 302:
-                return redirect('api:api_mascota_editar', pk)
-            return redirect('api:api_mascota_listar')
+                return redirect('api:api_mascota_editar', version, pk)
+            return redirect('api:api_mascota_listar', version)
         except:
             raise Http404("Error de conexion")
-        return redirect('mascota:function_mascota_listar')
+        return redirect('mascota:function_mascota_listar', version)
     else:
-        response = get_api_response(request, reverse_lazy('api:mascota_details_v1', kwargs={'pk': pk}))
+        response = get_api_response(request, reverse_lazy('api:mascota_details_v'+version, kwargs={'pk': pk}))
         mascota = response.json()
 
         personas = get_api_response(request, reverse_lazy('api:persona_list'))
@@ -135,16 +135,16 @@ def front_mascota_edit(request, pk):
         form.fields['persona']._set_choices(personas)
         form.fields['vacuna']._set_choices(vacunas)
 
-    return render(request, 'mascota/function/mascota_form.html', {'form':form})
+    return render(request, 'mascota/api/mascota_form.html', {'form':form, 'version':version})
 
 
-def front_mascota_delete(request, pk):
-    response = get_api_response(request, reverse_lazy('api:mascota_details_v1', kwargs={'pk': pk}))
+def front_mascota_delete(request, version, pk):
+    response = get_api_response(request, reverse_lazy('api:mascota_details_v'+version, kwargs={'pk': pk}))
     mascota = response.json()
     if request.method == 'POST':
         try:
             response = requests.delete(
-                format_url(reverse_lazy('api:mascota_details_v1', kwargs={'pk': pk})),
+                format_url(reverse_lazy('api:mascota_details_v'+version, kwargs={'pk': pk})),
                 timeout=4,
                 cookies=request.COOKIES,
                 headers={
@@ -152,13 +152,13 @@ def front_mascota_delete(request, pk):
                 }
             )
             if response.status_code == 204:
-                return redirect('api:api_mascota_listar')
+                return redirect('api:api_mascota_listar', version)
         except:
             raise Http404("Error de conexion")
-    return render(request, 'mascota/api/mascota_delete.html', {'mascota':mascota})
+    return render(request, 'mascota/api/mascota_delete.html', {'mascota':mascota, 'version':version})
 
 
-def front_mascota_persona_details(request, pk):
-    persona = get_api_response(request, reverse_lazy('api:mascota_persona_list_v1', kwargs={'pk': pk}))
+def front_mascota_persona_details(request, version, pk):
+    persona = get_api_response(request, reverse_lazy('api:mascota_persona_list_v'+version, kwargs={'pk': pk}))
     persona = persona.json()
-    return render(request, 'mascota/api/persona_details.html', {'persona': persona})
+    return render(request, 'mascota/api/persona_details.html', {'persona': persona, 'version':version})

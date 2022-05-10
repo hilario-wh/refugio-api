@@ -1,11 +1,12 @@
 {% extends 'base/base.html' %}
 
 {% block nav_button %}
-<a class="btn btn-outline-success" href="{% url 'api:api_mascota_crear' %}">Agregar</a>
+<a class="btn btn-outline-success" href="{% url 'api:api_mascota_crear' version %}">Agregar</a>
 {% endblock %}
 
 {% block content %}
 <div class="container">
+  <h5>API: V{{ version }}</h5>
   <table class="table table-bordered">
     <thead>
       <td>#</td>
@@ -27,9 +28,9 @@
             <td>{{ mascota.fecha_rescate }}</td>
             <td>{{ mascota.persona.nombre }} {{ mascota.persona.apellido }}</td>
             <td>
-              <a href="{% url 'api:api_mascota_editar' mascota.id %}" class="btn btn-primary">Editar</a>
-              <a href="{% url 'api:api_mascota_eliminar' mascota.id %}" class="btn btn-danger">Eliminar</a>
-              <a href="{% url 'api:api_mascota_persona_details' mascota.id %}" class="btn btn-info">Adoptante</a>
+              <a href="{% url 'api:api_mascota_editar' version mascota.id %}" class="btn btn-primary">Editar</a>
+              <a href="{% url 'api:api_mascota_eliminar' version mascota.id %}" class="btn btn-danger">Eliminar</a>
+              <a href="{% url 'api:api_mascota_persona_details' version mascota.id %}" class="btn btn-info">Adoptante</a>
             </td>
           </tr>
         {% endfor %}

@@ -2,11 +2,12 @@
 
 {% block content %}
     <div class="container">
+        <h5>API: V{{ version }}</h5>
         <form method="POST">
             {% csrf_token %}
             <h3>Desea eliminar el registro de {{ mascota.nombre }}</h3>
             <button type="submit" class="btn btn-danger">Si, eliminar</button>
-            <a href="{% url 'api:api_mascota_listar' %}">Cancelar</a>
+            <a href="{% url 'api:api_mascota_listar' version %}">Cancelar</a>
         </form>
     </div>
 {% endblock %}
