@@ -6,6 +6,8 @@ from modulos.api.views.mascota_apiview import MascotaDetails, MascotaList, Masco
 from modulos.api.views.mascota_viewset import MascotaViewset
 from modulos.api.views.mascotas_generic import MascotaDetailsGeneric, MascotaListGeneric, MascotaPersonaListGeneric
 from modulos.api.views.mascota_front import front_mascota_create, front_mascota_delete, front_mascota_edit, front_mascota_list
+from modulos.api.views.persona_generic import PersonaListGeneric
+from modulos.api.views.vacuna_generic import VacunaListGeneric
 from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
@@ -21,6 +23,8 @@ urlpatterns = [
     url(r'^v3/mascotas$', MascotaListGeneric.as_view(), name='mascota_list_v3'),
     url(r'^v3/mascotas/(?P<pk>\d+)$', MascotaDetailsGeneric.as_view(), name='mascota_details_v3'),
     url(r'^v3/mascotas/(?P<pk>\d+)/persona$', MascotaPersonaListGeneric.as_view(), name='mascota_persona_list_v3'),
+    url(r'^v3/personas$', PersonaListGeneric.as_view(), name='persona_list_v3'),
+    url(r'^v3/vacunas$', VacunaListGeneric.as_view(), name='vacuna_list_v3'),
     # Viewset
     url(r'^v4/mascotas$', MascotaViewset.as_view({'get':'list', 'post':'create'}), name='mascota_list_v4'),
     url(r'^v4/mascotas/(?P<pk>\d+)$', MascotaViewset.as_view({'get':'retrieve', 'put':'update', 'delete': 'destroy'}), name='mascota_details_v4'),

@@ -1,6 +1,6 @@
 from django import forms
-
 from modulos.mascota.models import Mascota
+
 
 class MascotaForm(forms.ModelForm):
     class Meta:
@@ -33,3 +33,12 @@ class MascotaForm(forms.ModelForm):
             'persona': forms.Select(attrs={'class': 'form-control'}),
             'vacuna': forms.CheckboxSelectMultiple(),
         }
+
+
+class MascotaApiForm(forms.Form):
+    nombre = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    sexo = forms.CharField(max_length=10, widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
+    edad_aproximada = forms.CharField(max_length=10, widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
+    fecha_rescate = forms.CharField(max_length=10, widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
+    persona = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), required=False)
+    vacuna = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), required=False)
