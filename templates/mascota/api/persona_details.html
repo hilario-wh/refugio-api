@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Mascotas{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h4 class="mt-5">Persona: {{ persona.nombre }}</h4>
+        <ul class="list-style-none">
+            <li><b>ID:</b> {{ persona.id }}</li>
+            <li><b>EDAD:</b> {{ persona.edad }}</li>
+            <li><b>NOMBRE:</b> {{ persona.nombre }}</li>
+            <li><b>APELLIDO:</b> {{ persona.apellido }}</li>
+            <li><b>EMAIL:</b> {{ persona.email }}</li>
+            <li><b>TELEFONO:</b> {{ persona.telefono }}</li>
+            <li><b>DOMICILIO:</b> {{ persona.domicilio }}</li>
+        </ul>
+    </div>
+{% endblock %}

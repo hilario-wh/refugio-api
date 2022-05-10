@@ -156,3 +156,9 @@ def front_mascota_delete(request, pk):
         except:
             raise Http404("Error de conexion")
     return render(request, 'mascota/api/mascota_delete.html', {'mascota':mascota})
+
+
+def front_mascota_persona_details(request, pk):
+    persona = get_api_response(request, reverse_lazy('api:mascota_persona_list_v1', kwargs={'pk': pk}))
+    persona = persona.json()
+    return render(request, 'mascota/api/persona_details.html', {'persona': persona})
