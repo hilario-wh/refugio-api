@@ -81,10 +81,10 @@ def front_mascota_create(request):
     else:
         form = MascotaApiForm()
 
-        personas = get_api_response(request, reverse_lazy('api:persona_list_v3'))
+        personas = get_api_response(request, reverse_lazy('api:persona_list'))
         personas = format_options(personas.json(), "id", "nombre")
 
-        vacunas = get_api_response(request, reverse_lazy('api:vacuna_list_v3'))
+        vacunas = get_api_response(request, reverse_lazy('api:vacuna_list'))
         vacunas = format_options(vacunas.json(), "id", "nombre")
 
         form.fields['persona']._set_choices(personas)
@@ -118,10 +118,10 @@ def front_mascota_edit(request, pk):
         response = get_api_response(request, reverse_lazy('api:mascota_details_v1', kwargs={'pk': pk}))
         mascota = response.json()
 
-        personas = get_api_response(request, reverse_lazy('api:persona_list_v3'))
+        personas = get_api_response(request, reverse_lazy('api:persona_list'))
         personas = format_options(personas.json(), "id", "nombre")
 
-        vacunas = get_api_response(request, reverse_lazy('api:vacuna_list_v3'))
+        vacunas = get_api_response(request, reverse_lazy('api:vacuna_list'))
         vacunas = format_options(vacunas.json(), "id", "nombre")
 
         if mascota["persona"] is not None:
