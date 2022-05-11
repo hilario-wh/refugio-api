@@ -48,6 +48,13 @@ def format_form_post(form):
     return json.dumps(post_data)
 
 
+def add_errors_form(form, response):
+    for field in response:
+        for error in response.get(field):
+            form.add_error(field, error)
+    return form
+
+
 def front_mascota_list(request, version):
     response = get_api_response(request, reverse_lazy('api:mascota_list_v'+version))
     mascotas = {}
@@ -72,28 +79,31 @@ def front_mascota_create(request, version):
                 },
                 data=post_data
             )
-            if response.status_code == 400 or response.status_code == 302:
-                return redirect('api:api_mascota_crear', version)
-            return redirect('api:api_mascota_listar', version)
+            if response.status_code != 400:
+                return redirect('api:api_mascota_listar', version)
         except:
             raise Http404("Error de conexion")
-
+        form = add_errors_form(form, response.json())
     else:
         form = MascotaApiForm()
 
-        personas = get_api_response(request, reverse_lazy('api:persona_list'))
-        personas = format_options(personas.json(), "id", "nombre")
+    personas = get_api_response(request, reverse_lazy('api:persona_list'))
+    personas = format_options(personas.json(), "id", "nombre")
 
-        vacunas = get_api_response(request, reverse_lazy('api:vacuna_list'))
-        vacunas = format_options(vacunas.json(), "id", "nombre")
+    vacunas = get_api_response(request, reverse_lazy('api:vacuna_list'))
+    vacunas = format_options(vacunas.json(), "id", "nombre")
 
-        form.fields['persona']._set_choices(personas)
-        form.fields['vacuna']._set_choices(vacunas)
+    form.fields['persona']._set_choices(personas)
+    form.fields['vacuna']._set_choices(vacunas)
 
     return render(request, 'mascota/api/mascota_form.html', {'form':form, 'version':version})
 
 
 def front_mascota_edit(request, version, pk):
+    response = get_api_response(request, reverse_lazy('api:mascota_details_v' + version, kwargs={'pk': pk}))
+    mascota = response.json()
+    form = MascotaApiForm(data=mascota)
+
     if request.method == 'POST':
         try:
             form = MascotaApiForm(request.POST)
@@ -108,32 +118,27 @@ def front_mascota_edit(request, version, pk):
                 },
                 data=post_data
             )
-            if response.status_code == 400 or response.status_code == 302:
-                return redirect('api:api_mascota_editar', version, pk)
-            return redirect('api:api_mascota_listar', version)
+            if response.status_code != 400:
+                return redirect('api:api_mascota_listar', version)
         except:
             raise Http404("Error de conexion")
-        return redirect('mascota:function_mascota_listar', version)
-    else:
-        response = get_api_response(request, reverse_lazy('api:mascota_details_v'+version, kwargs={'pk': pk}))
-        mascota = response.json()
 
-        personas = get_api_response(request, reverse_lazy('api:persona_list'))
-        personas = format_options(personas.json(), "id", "nombre")
+        form = add_errors_form(form, response.json())
 
-        vacunas = get_api_response(request, reverse_lazy('api:vacuna_list'))
-        vacunas = format_options(vacunas.json(), "id", "nombre")
+    personas = get_api_response(request, reverse_lazy('api:persona_list'))
+    personas = format_options(personas.json(), "id", "nombre")
 
-        if mascota["persona"] is not None:
-            mascota["persona"] = mascota.get("persona").get("id")
+    vacunas = get_api_response(request, reverse_lazy('api:vacuna_list'))
+    vacunas = format_options(vacunas.json(), "id", "nombre")
 
-        if mascota["vacuna"] is not None:
-            mascota["vacuna"] = [vacuna.get("id") for vacuna in mascota.get("vacuna")]
+    if mascota["persona"] is not None:
+        mascota["persona"] = mascota.get("persona").get("id")
 
-        form = MascotaApiForm(data=mascota)
+    if mascota["vacuna"] is not None:
+        mascota["vacuna"] = [vacuna.get("id") for vacuna in mascota.get("vacuna")]
 
-        form.fields['persona']._set_choices(personas)
-        form.fields['vacuna']._set_choices(vacunas)
+    form.fields['persona']._set_choices(personas)
+    form.fields['vacuna']._set_choices(vacunas)
 
     return render(request, 'mascota/api/mascota_form.html', {'form':form, 'version':version})
 
