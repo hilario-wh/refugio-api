@@ -9,6 +9,8 @@ from django.shortcuts import render,redirect
 from modulos.mascota.forms import MascotaApiForm
 from django.core.urlresolvers import reverse_lazy
 
+from modulos.api.views.mascota_viewset import MascotaViewset
+
 
 def format_url(url):
     url = '{}{}'.format(settings.DOMAIN, url)
@@ -56,10 +58,15 @@ def add_errors_form(form, response):
 
 
 def front_mascota_list(request, version):
-    response = get_api_response(request, reverse_lazy('api:mascota_list_v'+version))
-    mascotas = {}
-    if response.status_code == 200:
-        mascotas = response.json()
+    if version == "4":
+        instance = MascotaViewset()
+        mascota_instance = instance.list(request)
+        mascotas = mascota_instance.data
+    else:
+        response = get_api_response(request, reverse_lazy('api:mascota_list_v'+version))
+        mascotas = {}
+        if response.status_code == 200:
+            mascotas = response.json()
     contexto = {'mascotas':mascotas, 'version': version}
     return render(request, 'mascota/api/mascota_list.html', contexto)
 
