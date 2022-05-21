@@ -145,6 +145,8 @@ class Producto(models.Model):
     comentario = models.TextField(_('Comentarios'))
     precio_compra = models.DecimalField(_('Precio de compra'), max_digits=15, decimal_places=2, default=0)
     precio_venta = models.DecimalField(_('Precio de venta'), max_digits=15, decimal_places=2, default=0)
+    # Tabla
+    # precio_venta_1, precio_venta_2
     # precio_adicional = models.JSONField(_(''), max_length=50) ask: donde guardar los precios adicionales?
     procentaje_comision = models.DecimalField(_('Porcentaje Comisión'), max_digits=15, decimal_places=2, default=0)
     porcentaje_monedero = models.DecimalField(_('Porcentaje Monedero'), max_digits=15, decimal_places=2, default=0)
@@ -169,7 +171,7 @@ class Producto(models.Model):
     #     blank=True,
     #     null=True,
     #     verbose_name="Unidad SAT"
-    # ) ask: Se usaran las claves del sat?
+    # )
     # empresa = models.ForeignKey('sistema.Empresa', related_name="empresa_producto", on_delete=models.CASCADE)
 
     # timestamps
@@ -231,6 +233,9 @@ class Serie(models.Model):
     num_serie = models.CharField(max_length=50, verbose_name="N° Serie", blank=True)
     ultimo_cambio = models.TextField(blank=True)
     comentario = models.TextField(blank=True, null=True)
+
+    def __unicode__(self):
+        return self.num_serie
 
 
 

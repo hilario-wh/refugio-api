@@ -29,7 +29,18 @@ class ListValores(admin.TabularInline):
 
 @admin.register(Producto)
 class ProductosAdmin(admin.ModelAdmin):
-    list_display = ('codigo', 'nombre', 'categoria', 'descripcion', 'precio_compra', 'precio_venta', 'existencia', 'existencia_minima', 'existencia_maxima', 'tipo_producto')
+    list_display = (
+        'codigo',
+        'nombre',
+        'categoria',
+        'descripcion',
+        'precio_compra',
+        'precio_venta',
+        'existencia',
+        'existencia_minima',
+        'existencia_maxima',
+        'tipo_producto'
+    )
     inlines = [ListVariaciones]
 
 
@@ -37,9 +48,21 @@ class ProductosAdmin(admin.ModelAdmin):
 class AtributoAdmin(admin.ModelAdmin):
     inlines = [ListValores]
 
+@admin.register(Serie)
+class SerieAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'estado',
+        'proveedor',
+        'sucursal',
+        'producto',
+        'num_serie',
+        'ultimo_cambio',
+        'comentario',
+    )
+
 admin.site.register(Sucursal)
 admin.site.register(Categoria)
 admin.site.register(Proveedor)
 admin.site.register(TipoProducto)
 admin.site.register(EstadoProducto)
-admin.site.register(Serie)
