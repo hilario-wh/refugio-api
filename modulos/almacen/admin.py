@@ -6,7 +6,13 @@ from modulos.almacen.models import (
     Variaciones,
     Atributo,
     AtributoValor,
-    Producto
+    Producto,
+    Categoria,
+    Proveedor,
+    TipoProducto,
+    Sucursal,
+    EstadoProducto,
+    Serie
 )
 
 
@@ -23,7 +29,7 @@ class ListValores(admin.TabularInline):
 
 @admin.register(Producto)
 class ProductosAdmin(admin.ModelAdmin):
-    list_display = ('codigo', 'nombre', 'descripcion', 'precio_compra', 'precio_venta', 'existencia', 'tipo_producto')
+    list_display = ('codigo', 'nombre', 'categoria', 'descripcion', 'precio_compra', 'precio_venta', 'existencia', 'existencia_minima', 'existencia_maxima', 'tipo_producto')
     inlines = [ListVariaciones]
 
 
@@ -31,6 +37,9 @@ class ProductosAdmin(admin.ModelAdmin):
 class AtributoAdmin(admin.ModelAdmin):
     inlines = [ListValores]
 
-#admin.site.register(Atributo)
-#admin.site.register(AtributoValor)
-#admin.site.register(Variaciones)
+admin.site.register(Sucursal)
+admin.site.register(Categoria)
+admin.site.register(Proveedor)
+admin.site.register(TipoProducto)
+admin.site.register(EstadoProducto)
+admin.site.register(Serie)
