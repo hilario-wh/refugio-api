@@ -182,6 +182,40 @@ class Producto(models.Model):
         return self.nombre
 
 
+class PrecioAdicionalNombre(models.Model):
+    '''
+    Tabla para almacenar precios las etiquetas de los precios adicionales, se usan para dar precios
+    preferenciales a los clientes dependiendo su configuracion:
+    Ejemplo: | precio_1 | precio_2 | precio_3
+    Valores predeterminados: precio_1, precio_2, precio_3, precio_4, precio_5
+    '''
+    nombre = models.CharField(_('Nombre'), max_length=60)
+    #empresa = models.ForeignKey('sistema.Empresa', related_name="empresa_precio_adicional", on_delete=models.CASCADE)
+
+    # timestamps
+    created_at = models.DateTimeField(_('Fecha de creación'), auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(_('Fecha de ultima actualización'), auto_now=True)
+
+    def __unicode__(self):
+        return self.nombre
+
+
+class PrecioAdicional(models.Model):
+    '''
+    Tabla para almacenar el valor del precio adicional y esta
+    ligado a un producto y una etiqueta de precio adicional:
+    Ejemplo: | precio_1: 25.00 | precio_2: 20.00 | precio_3: 18.00
+    '''
+    producto = models.ForeignKey(Producto, related_name='producto_precio_adiconal', on_delete=models.CASCADE)
+    nombre = models.ForeignKey(PrecioAdicionalNombre, related_name='nombre_precio_adicional', on_delete=models.CASCADE)
+    precio_venta = models.DecimalField(_('Precio de venta'), max_digits=15, decimal_places=2, default=0)
+    #empresa = models.ForeignKey('sistema.Empresa', related_name="empresa_precio_adicional", on_delete=models.CASCADE)
+
+    # timestamps
+    created_at = models.DateTimeField(_('Fecha de creación'), auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(_('Fecha de ultima actualización'), auto_now=True)
+
+
 class Serie(models.Model):
     '''
     Tabla para almacenar productos con numero de serie (Renombrada de Articulo en wisphub)

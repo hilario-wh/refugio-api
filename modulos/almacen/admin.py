@@ -12,13 +12,20 @@ from modulos.almacen.models import (
     TipoProducto,
     Sucursal,
     EstadoProducto,
-    Serie
+    Serie,
+    PrecioAdicional,
+    PrecioAdicionalNombre,
 )
 
 
 # Register your models here.
 class ListVariaciones(admin.TabularInline):
     model = Variaciones
+    extra = 0
+
+
+class ListPrecioAdicional(admin.TabularInline):
+    model = PrecioAdicional
     extra = 0
 
 
@@ -39,9 +46,9 @@ class ProductosAdmin(admin.ModelAdmin):
         'existencia',
         'existencia_minima',
         'existencia_maxima',
-        'tipo_producto'
+        'tipo_producto',
     )
-    inlines = [ListVariaciones]
+    inlines = [ListVariaciones, ListPrecioAdicional]
 
 
 @admin.register(Atributo)
@@ -66,3 +73,4 @@ admin.site.register(Categoria)
 admin.site.register(Proveedor)
 admin.site.register(TipoProducto)
 admin.site.register(EstadoProducto)
+admin.site.register(PrecioAdicionalNombre)
